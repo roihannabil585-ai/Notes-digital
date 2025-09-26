@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catatan Digital</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #111; /* Background hitam */
+    color: #fff;
+    padding: 20px;
+  }
+  h2 {text-align:center; color: #FFD700;} /* Judul warna emas */
+  #noteInput {
+    width:100%; 
+    padding:10px; 
+    margin-bottom:10px; 
+    border-radius:5px; 
+    border:none;
+    background:#333; 
+    color:#fff;
+  }
+  button {padding:10px; border:none; border-radius:5px; cursor:pointer; background:#28a745; color:white; margin-bottom:20px;}
+  ul {list-style:none; padding:0;}
+  li {
+    background: linear-gradient(135deg, #ff7eb9, #ff758c); /* warna cantik */
+    margin-bottom:10px; 
+    padding:10px; 
+    border-radius:10px; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center;
+    color:#fff;
+    font-weight:bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    cursor:pointer;
+  }
+  li.completed {text-decoration: line-through; opacity:0.7;}
+  .deleteBtn {
+    background:#dc3545; 
+    color:white; 
+    border:none; 
+    border-radius:5px; 
+    padding:5px 10px; 
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<h2>Catatan Digital</h2>
+<input type="text" id="noteInput" placeholder="Tulis catatan baru...">
+<button id="addBtn">Tambah Catatan</button>
+<ul id="noteList"></ul>
+
+<script>
+const noteInput = document.getElementById('noteInput');
+const addBtn = document.getElementById('addBtn');
+const noteList = document.getElementById('noteList');
+
+// Array warna cantik untuk variasi tiap catatan
+const colors = [
+  'linear-gradient(135deg, #ff7eb9, #ff758c)',
+  'linear-gradient(135deg, #42e695, #3bb2b8)',
+  'linear-gradient(135deg, #4776e6, #8e54e9)',
+  'linear-gradient(135deg, #f7971e, #ffd200)',
+  'linear-gradient(135deg, #f953c6, #b91d73)'
+];
+
+// Tambah catatan
+addBtn.addEventListener('click', () => {
+  const text = noteInput.value.trim();
+  if(!text) return;
+  const li = document.createElement('li');
+  li.textContent = text;
+
+  // Pilih warna acak untuk background
+  li.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+  // Klik untuk tandai selesai
+  li.addEventListener('click', () => {
+    li.classList.toggle('completed');
+  });
+
+  // Tombol hapus
+  const delBtn = document.createElement('button');
+  delBtn.textContent = 'Hapus';
+  delBtn.className = 'deleteBtn';
+  delBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    li.remove();
+  });
+
+  li.appendChild(delBtn);
+  noteList.appendChild(li);
+  noteInput.value = '';
+});
+</script>
+
+</body>
+</html>
